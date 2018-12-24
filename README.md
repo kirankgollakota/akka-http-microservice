@@ -1,6 +1,8 @@
 # Akka HTTP microservice example
 
-This project demonstrates the [Akka HTTP](http://doc.akka.io/docs/akka-stream-and-http-experimental/current/scala.html) library and Scala to write a simple REST (micro)service. The project shows the following tasks that are typical for most Akka HTTP-based projects:
+[![Join the chat at https://gitter.im/theiterators/akka-http-microservice](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/theiterators/akka-http-microservice?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+This project demonstrates the [Akka HTTP](http://doc.akka.io/docs/akka-http/current/scala/http/) library and Scala to write a simple REST (micro)service. The project shows the following tasks that are typical for most Akka HTTP-based projects:
 
 * starting standalone HTTP server,
 * handling file-based configuration,
@@ -13,7 +15,9 @@ This project demonstrates the [Akka HTTP](http://doc.akka.io/docs/akka-stream-an
 * issuing requests to external services,
 * testing with mocking of external services.
 
-The service in the template provides two REST endpoints - one which gives GeoIP info for given IP and another for calculating geographical distance between given pair of IPs. The project uses the service [Telize](http://www.telize.com/) which offers JSON IP and GeoIP REST API for free.
+The service in the template provides two REST endpoints - one which gives GeoIP info for given IP and another for calculating geographical distance between given pair of IPs. The project uses the service [ip-api](http://ip-api.com/) which offers JSON IP and GeoIP REST API for free for non-commercial use.
+
+If you want to read more thorough explaination, check out [tutorial](https://github.com/theiterators/akka-http-microservice/blob/master/tutorial/index.html).
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
@@ -32,29 +36,30 @@ With the service up, you can start sending HTTP requests:
 $ curl http://localhost:9000/ip/8.8.8.8
 {
   "city": "Mountain View",
-  "ip": "8.8.8.8",
-  "latitude": 37.386,
+  "query": "8.8.8.8",
   "country": "United States",
-  "longitude": -122.0838
+  "lon": -122.0881,
+  "lat": 37.3845
 }
 ```
 
 ```
-$ curl -X POST -H 'Content-Type: application/json' http://localhost:9000/ip -d '{"ip1": "8.8.8.8", "ip2": "8.8.4.4"}'
+$ curl -X POST -H 'Content-Type: application/json' http://localhost:9000/ip -d '{"ip1": "8.8.8.8", "ip2": "93.184.216.34"}'
 {
-  "distance": 2201.448386715217,
+  "distance": 4347.624347494718,
   "ip1Info": {
     "city": "Mountain View",
-    "ip": "8.8.8.8",
-    "latitude": 37.386,
+    "query": "8.8.8.8",
     "country": "United States",
-    "longitude": -122.0838
+    "lon": -122.0881,
+    "lat": 37.3845
   },
   "ip2Info": {
-    "ip": "8.8.4.4",
+    "city": "Norwell",
+    "query": "93.184.216.34",
     "country": "United States",
-    "latitude": 38.0,
-    "longitude": -97.0
+    "lon": -70.8228,
+    "lat": 42.1508
   }
 }
 ```
